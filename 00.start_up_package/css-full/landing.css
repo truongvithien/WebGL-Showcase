@@ -1,0 +1,61 @@
+@import url("https://fonts.googleapis.com/css?family=Noto+Serif");
+body {
+  margin: 0;
+  padding: 0;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  background: #020024;
+  background: radial-gradient(circle, #464646 20%, #111111 100%);
+  font-family: 'Noto Serif', serif;
+}
+
+#content {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+}
+#content .navbar {
+  padding: 0;
+  margin: 0;
+  width: 100%;
+  height: 80px;
+  background: rgba(0, 0, 0, 0.8);
+}
+#content .navbar li {
+  list-style-type: none;
+  float: left;
+}
+#content .swiper-container {
+  width: 100%;
+  height: 100%;
+  margin-left: auto;
+  margin-right: auto;
+}
+#content .swiper-container .swiper-wrapper {
+  display: block !important;
+}
+#content .swiper-container .swiper-wrapper .swiper-slide {
+  color: #fff;
+  font-size: 32px;
+  box-sizing: border-box;
+}
+#content .swiper-container .swiper-wrapper .swiper-slide .slide-content {
+  padding: 100px;
+  height: 100%;
+  box-sizing: border-box;
+}
+#content .swiper-container .swiper-wrapper .swiper-slide .slide-content article {
+  color: #000;
+  padding: 20px;
+  width: 400px;
+  margin-left: auto;
+}
+#content .swiper-container .swiper-wrapper .swiper-slide:nth-child(2n) .slide-content article {
+  margin-left: 0;
+  margin-right: auto;
+}
+
+/*# sourceMappingURL=landing.css.map */
