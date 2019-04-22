@@ -2,10 +2,10 @@ $(function(){
 	createScene('#world', scene, Window);
 
 
-	loadObject('../models/k07_drone/scene.gltf').then(function(obj) {
+	loadObject('../models/sea_turtle/scene.gltf').then(function(obj) {
 		console.log(obj);
 		var objScene = obj.scene;
-		objScene.scale.set(3,3,3);
+		objScene.scale.set(1,1,1);
 		// objScene.scale.set(0.2,0.2,0.2);
 		objScene.position.set(0,0,0);
 
