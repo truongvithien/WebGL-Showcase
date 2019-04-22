@@ -2,14 +2,15 @@ function createScene(container, scene, Window){
 
 
 
-	// scene.fog = new THREE.Fog(0xB2E6FE, 100, 350);
+	scene.fog = new THREE.Fog( 0xFFE4AA, 70, 300);
 
 	// Camera
 
 	var aspectRatio = Window.ratio;
 	var fieldOfView = 60;
 	var nearPlane = 1;
-	var farPlane = 600;
+	// var farPlane = 600;
+	var farPlane = 1000;
 
 	camera 	 = new THREE.PerspectiveCamera( 
 		fieldOfView,
@@ -21,6 +22,8 @@ function createScene(container, scene, Window){
 	// Set default camera position
 
 	camera.position.set(100, 100, 0);
+	pointLight = new THREE.PointLight( 0xffffff, 1 );
+	camera.add(pointLight)
 
 	// Render
 
@@ -40,6 +43,8 @@ function createScene(container, scene, Window){
 	// Control
 
 	console.log(control_mode); 
+
+	control_mode = 'test'
 
 	switch (control_mode) {
 		case 'orbit':

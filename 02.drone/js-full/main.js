@@ -2,10 +2,10 @@ $(function(){
 	createScene('#world', scene, Window);
 
 
-	loadObject('../models/k07_drone/scene.gltf').then(function(obj) {
+	loadObject('../models/moments_of_my_life_wedding_day/scene.gltf').then(function(obj) {
 		console.log(obj);
 		var objScene = obj.scene;
-		objScene.scale.set(3,3,3);
+		objScene.scale.set(20,20,20);
 		// objScene.scale.set(0.2,0.2,0.2);
 		objScene.position.set(0,0,0);
 
@@ -31,12 +31,12 @@ $(function(){
 	//     console.log(event.deltaX, event.deltaY, event.deltaFactor);
 	// });
 
-	// createLights(scene);
+	createLights(scene);
 
 	var blubs = [
 		createBulbLight(scene, [1000, 100, 1000], 0xFFF1E0),
-		createBulbLight(scene, [-1000, 100, 1000], 0xC9E1FF),
-		createBulbLight(scene, [1000, 100, -1000], 0xffffff),
+		createBulbLight(scene, [-1000, 100, 1000], 0xFFF4AD),
+		createBulbLight(scene, [1000, 100, -1000], 0xFFD7B0),
 		createBulbLight(scene, [-1000, 100, -1000], 0xFFF1E0),
 	]
 
