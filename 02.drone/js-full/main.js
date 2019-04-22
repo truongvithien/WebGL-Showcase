@@ -6,6 +6,7 @@ $(function(){
 		console.log(obj);
 		var objScene = obj.scene;
 		objScene.scale.set(1,1,1);
+
 		// objScene.scale.set(0.2,0.2,0.2);
 		objScene.position.set(0,0,0);
 
@@ -31,12 +32,12 @@ $(function(){
 	//     console.log(event.deltaX, event.deltaY, event.deltaFactor);
 	// });
 
-	// createLights(scene);
+	createLights(scene);
 
 	var blubs = [
 		createBulbLight(scene, [1000, 100, 1000], 0xFFF1E0),
-		createBulbLight(scene, [-1000, 100, 1000], 0xC9E1FF),
-		createBulbLight(scene, [1000, 100, -1000], 0xffffff),
+		createBulbLight(scene, [-1000, 100, 1000], 0xFFF4AD),
+		createBulbLight(scene, [1000, 100, -1000], 0xFFD7B0),
 		createBulbLight(scene, [-1000, 100, -1000], 0xFFF1E0),
 	]
 

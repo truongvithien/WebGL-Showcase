@@ -23,5 +23,8 @@
     "swiper": "^4.5.0",
     "three": "^0.103.0",
     "wow.js": "^1.2.2"
+  },
+  "devDependencies": {
+    "@fortawesome/fontawesome-free": "^5.8.1"
   }
 }
