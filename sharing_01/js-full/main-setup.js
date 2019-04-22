@@ -2,14 +2,13 @@ function createScene(container, scene, Window){
 
 
 
-	scene.fog = new THREE.Fog( 0xFFE4AA, 70, 300);
+	scene.fog = new THREE.Fog('#000', 200, 550);
 
 	// Camera
 
 	var aspectRatio = Window.ratio;
 	var fieldOfView = 60;
 	var nearPlane = 1;
-	// var farPlane = 600;
 	var farPlane = 1000;
 
 	camera 	 = new THREE.PerspectiveCamera( 
@@ -22,8 +21,6 @@ function createScene(container, scene, Window){
 	// Set default camera position
 
 	camera.position.set(100, 100, 0);
-	pointLight = new THREE.PointLight( 0xffffff, 1 );
-	camera.add(pointLight)
 
 	// Render
 
@@ -31,6 +28,8 @@ function createScene(container, scene, Window){
 		alpha: true,
 		antialias: true,
 	});
+	// renderer.setPixelRatio( window.devicePixelRatio );
+	renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 
 	renderer.gammaOutput = true;
 	renderer.shadowMap.enabled = true;
@@ -42,14 +41,10 @@ function createScene(container, scene, Window){
 
 	// Control
 
-	console.log(control_mode); 
-
-	control_mode = 'test'
-
 	switch (control_mode) {
 		case 'orbit':
 			controls = new THREE.OrbitControls( camera, renderer.domElement );
-			// controls.addEventListener( 'change', render ); // call this only in static scenes (i.e., if there is no animation loop)
+			controls.addEventListener( 'change', render ); // call this only in static scenes (i.e., if there is no animation loop)
 			controls.enableDamping = true; // an animation loop is required when either damping or auto-rotation are enabled
 			controls.dampingFactor = 0.25;
 			controls.screenSpacePanning = false;
@@ -87,10 +82,10 @@ function createAxes(scene){
 
 function createLights(scene){
 	// color light
-	var hemisphereLight = new THREE.HemisphereLight(0x0000ff, 0x00ff00, 0.4); 
-	var ambientLight = new THREE.AmbientLight(0xffffff, 0.3);
+	var hemisphereLight = new THREE.HemisphereLight(0x0000ff, 0x00ff00, 0.1); 
+	var ambientLight = new THREE.AmbientLight(0xffffff, 0.4);
 
-	var shadowLight = new THREE.DirectionalLight(0xffffff, 1);
+	var shadowLight = new THREE.DirectionalLight(0xffffff, .8);
 
 	shadowLight.position.set(150, 150, 150);
 
@@ -115,20 +110,65 @@ function createLights(scene){
 	scene.add(shadowLight);
 }
 
-function createBulbLight(scene, position, color = 0xffffff){
-	var bulbGeometry = new THREE.SphereBufferGeometry( 20, 20, 20 );
-	bulbLight = new THREE.PointLight( color, 1, 0, 1 );
 
-	bulbMat = new THREE.MeshStandardMaterial( {
-		emissive: 0xffffee,
-		emissiveIntensity: 1,
-		color: 0x000000
-	} );
-	bulbLight.add( new THREE.Mesh( bulbGeometry, bulbMat ) );
-	bulbLight.position.set( position.x, position.y, position.z );
-	bulbLight.castShadow = true;
+function createSun(scene, position, color = 0xffffff){
+	var Sun = function(){
+		this.mesh = new THREE.Object3D();
 
-	scene.add( bulbLight );
+		var bulbGeometry = new THREE.SphereBufferGeometry( 1, 1, 1 );
+		var bulbLight = new THREE.PointLight( color, 1, 0, 1 );
+		bulbLight.shadow.bias = 0;
+		bulbLight.shadow.mapSize.width = Window.width; // default is 512
+		bulbLight.shadow.mapSize.height = Window.height; // default is 512
 
-	return bulbLight;
+		var bulbMat = new THREE.MeshStandardMaterial( {
+			emissive: 0xffffee,
+			emissiveIntensity: 1,
+			color: 0x000000
+		} );
+
+		bulbLight.add( new THREE.Mesh( bulbGeometry, bulbMat ) );
+		// bulbLight.position.y += 200;
+		bulbLight.position.set( position.x, position.y, position.z );
+		bulbLight.castShadow = true;
+
+		this.mesh.add(bulbLight);
+	}
+
+	sun = new Sun();
+	scene.add(sun.mesh);
+
+	return sun.mesh;
 }
+
+
+function createMoon(scene, position, color = 0xffffff){
+	var Moon = function(){
+		this.mesh = new THREE.Object3D();
+
+		var bulbGeometry = new THREE.SphereBufferGeometry( 1, 1, 1 );
+		var bulbLight = new THREE.PointLight( color, 1, 0, 1 );
+		bulbLight.shadow.bias = 0;
+		bulbLight.shadow.mapSize.width = 0; // default is 512
+		bulbLight.shadow.mapSize.height = 0; // default is 512
+
+		var bulbMat = new THREE.MeshStandardMaterial( {
+			emissive: 0xffffee,
+			emissiveIntensity: 1,
+			color: 0x000000
+		} );
+
+		bulbLight.add( new THREE.Mesh( bulbGeometry, bulbMat ) );
+		// bulbLight.position.y += 200;
+		bulbLight.position.set( position.x, position.y, position.z );
+		bulbLight.castShadow = true;
+
+		this.mesh.add(bulbLight);
+	}
+
+	moon = new Moon();
+	scene.add(moon.mesh);
+
+	return moon.mesh;
+}
+
