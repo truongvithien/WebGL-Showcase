@@ -17,7 +17,7 @@ $(function(){
 	land = createLand(scene);
 	sea = createSea(scene);
 	grass = createGrass(scene);
-	tree = createThree(scene);
+	tree0 = createTree0(scene);
 	cloud = createCloud(scene);
 
 	// camera.lookAt(sphere);
@@ -27,13 +27,12 @@ $(function(){
 
 	ready = true; 
 
-    function onMouseMove(event) {
-	    mouseX = event.clientX - window.innerWidth / 2;
-	    mouseY = event.clientY - window.innerHeight / 2;
-	    camera.position.x += (mouseX - camera.position.x) * 0.005;
-	    camera.position.y += (mouseY - camera.position.y) * 0.005;
-	    //set up camera position
-	    camera.lookAt(scene.position);
+    function onMouseMove(e) {
+	    camera.position.x += Math.max(Math.min((e.clientX - mouse.x) * 0.01, cameraMoves.speed), - cameraMoves.speed);
+		camera.position.z += Math.max(Math.min((mouse.y - e.clientY) * 0.01, cameraMoves.speed), - cameraMoves.speed);
+
+   		mouse.x = e.clientX;
+    	mouse.y = e.clientY;
 	};
 
 	$('#content').mousewheel(function(event) {
@@ -45,9 +44,9 @@ $(function(){
 			wheel_score = 0;
 		}
 
-		if (wheel_score < -10) {
-			wheel_score = 10;
-		}
+		// if (wheel_score < -10) {
+		// 	wheel_score = 10;
+		// }
 	});
 
 	createLights(scene);
@@ -73,6 +72,7 @@ $(function(){
 
 	clock = new THREE.Clock();
 	animate();
+	document.addEventListener('mousemove', onMouseMove, false);
 
 	new WOW().init();
 });
@@ -95,7 +95,6 @@ function update(){
 	time = Date.now() * 0.0005;
 	// mixer.update( delta / 2.0 );
 
-	updateCamera();
 	updateRotation()
 }
 
@@ -122,79 +121,73 @@ function updateRotation(){
 	if (sun) {
 		sun.rotation.x += .5*Math.PI/180;	
 	}
-
-	// moon.rotation.x += .5*Math.PI/180;
-
-	// var rotScr = .3;
-	// land.mesh.rotation.y += rotScr*Math.PI/180;
-	// grass.mesh.rotation.y += rotScr*Math.PI/180;
-	// three.mesh.rotation.y += rotScr*Math.PI/180;
-
-
-	// camera.focus(three);
 }
-
-function updateCamera() {
-
-}
-
 
 
 function updateScript(wheel_direction, wheel_score) {
 
 	var step = {
 		scale: .005,
-		rotation: .005,
+		rotation: .3*Math.PI/180,
 	}
 
-	console.log(wheel_score);
+	var rotScr = wheel_score * 1.5;
 
-	switch (wheel_score) {
-		case 0: 
-			// tree.mesh.scale.set(1, 1, 1);
-			tree.mesh.rotation.y = 0;
-			break;
-		case -1:
-			tree.mesh.rotation.y = 0;
-			// if (wheel_direction > 0 &&
-			// 	tree.mesh.scale.x + step.scale <= .2 && 
-			// 	tree.mesh.scale.y + step.scale <= .2 && 
-			// 	tree.mesh.scale.z + step.scale <= .2) {
-			// 	tree.mesh.scale.x += step.scale;
-			// 	tree.mesh.scale.y += step.scale;
-			// 	tree.mesh.scale.z += step.scale;
-			// }
-			break;
-		case -2:
-			tree.mesh.rotation.y = 0;
-			// if (wheel_direction < 0 &&
-			// 	tree.mesh.scale.x + step.scale >= .1 && 
-			// 	tree.mesh.scale.y + step.scale >= .1 && 
-			// 	tree.mesh.scale.z + step.scale >= .1) {
-			// 	tree.mesh.scale.x -= step.scale;
-			// 	tree.mesh.scale.y -= step.scale;
-			// 	tree.mesh.scale.z -= step.scale;
-			// }
-			break;
-		case -3:
-		case -4:
-			break;
-		case -5:
-			console.log(tree.mesh.rotation.y)
-			if (wheel_direction > 0 &&
-				tree.mesh.rotation.y >= - 360*Math.PI/180) {
-				tree.mesh.rotation.y -= step.rotation;
-			}
-			break;
-		case -6: 
-			if (wheel_direction < 0 &&
-				tree.mesh.rotation.y <= 360*Math.PI/180) {
-				tree.mesh.rotation.y += step.rotation;
-			}
-			break;
-		default:
-			break;
+	console.log(rotScr)
 
-	}
+	land.mesh.rotation.y = rotScr*Math.PI/180;
+	grass.mesh.rotation.y = rotScr*Math.PI/180;
+	// three.mesh.rotation.y = rotScr*Math.PI/180;
+	// leaf.mesh.rotation.y = rotScr*Math.PI/180;
+	// branch.mesh.rotation.y = rotScr*Math.PI/180;
+
+
+	// switch (wheel_score) {
+	// 	case 0: 
+	// 		// tree.mesh.scale.set(1, 1, 1);
+	// 		tree.mesh.rotation.y = 0;
+	// 		break;
+	// 	case -1:
+	// 		tree.mesh.rotation.y = 0;
+	// 		// if (wheel_direction > 0 &&
+	// 		// 	tree.mesh.scale.x + step.scale <= .2 && 
+	// 		// 	tree.mesh.scale.y + step.scale <= .2 && 
+	// 		// 	tree.mesh.scale.z + step.scale <= .2) {
+	// 		// 	tree.mesh.scale.x += step.scale;
+	// 		// 	tree.mesh.scale.y += step.scale;
+	// 		// 	tree.mesh.scale.z += step.scale;
+	// 		// }
+	// 		break;
+	// 	case -2:
+	// 		tree.mesh.rotation.y = 0;
+	// 		// if (wheel_direction < 0 &&
+	// 		// 	tree.mesh.scale.x + step.scale >= .1 && 
+	// 		// 	tree.mesh.scale.y + step.scale >= .1 && 
+	// 		// 	tree.mesh.scale.z + step.scale >= .1) {
+	// 		// 	tree.mesh.scale.x -= step.scale;
+	// 		// 	tree.mesh.scale.y -= step.scale;
+	// 		// 	tree.mesh.scale.z -= step.scale;
+	// 		// }
+	// 		break;
+	// 	case -3:
+	// 	case -4:
+	// 		break;
+	// 	case -5:
+	// 		console.log(tree.mesh.rotation.y)
+	// 		if (wheel_direction > 0 &&
+	// 			tree.mesh.rotation.y >= 360*Math.PI/180) {
+	// 			tree.mesh.rotation.y -= step.rotation;
+	// 		}
+	// 		break;
+	// 	case -6: 
+	// 		if (wheel_direction < 0 &&
+	// 			tree.mesh.rotation.y <= 360*Math.PI/180) {
+	// 			tree.mesh.rotation.y += step.rotation;
+	// 		}
+	// 		break;
+	// 	default:
+	// 		break;
+
+	// }
 
 }

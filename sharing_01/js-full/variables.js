@@ -12,6 +12,7 @@ var renderer;
 var controls;
 var seaShader, leafShader;
 var mouse = new THREE.Vector2(), INTERSECTED;
+var cameraMoves = {x:0,y:0,z:-0.1,move:true,speed:0.2};
 
 
 var wheel_direction = 0;

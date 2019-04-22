@@ -22,3 +22,4 @@ function triggerAnimate(obj){
 			$(obj).removeClass(animateClass);
 		})
 }
+
