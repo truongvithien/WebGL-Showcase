@@ -1,108 +1,71 @@
-function createSphere(scene) {
-	var Sphere = function(){
+function createObj(scene) {
+	var Obj = function(){
 		this.mesh = new THREE.Object3D();
 
-		var sphereGeo = new THREE.SphereGeometry(50, 40, 40);
-		var sphereMat = new THREE.MeshLambertMaterial({
-							color: '#1091FF',
+
+		// Geometry
+
+		// var objGeo = new THREE.BoxGeometry(50, 50, 50, 40);
+		var objGeo = new THREE.BoxGeometry(50, 50, 50, 40);
+
+
+		// Material
+
+		var objMat = new THREE.MeshPhongMaterial({
+							color: '#1297FE',
 							transparent: false,
 							opacity: 0.5
 						});
 
-		sphereMat.onBeforeCompile = (shader) => {
-		    shader.uniforms.time = { value: 0}
-		    shader.vertexShader = `
-		         uniform float time;
-		         ` + shader.vertexShader
-		    const token = `#include <begin_vertex>`
-		    const customTransform = `
-		        vec3 transformed = vec3(position);
-		        transformed.x = position.x 
-		             + sin(position.y*1.0 + time*5.0)*1.0;
-		    `
-		   shader.vertexShader =
-		           shader.vertexShader.replace(token,customTransform)
-		   materialShader = shader;
-		 }
+		// Combine
 
-		//remap value from the range of [smin,smax] to [emin,emax]
-		const map = (val, smin, smax, emin, emax) => (emax-emin)*(val-smin)/(smax-smin) + emin
-
-		//randomly displace the x,y,z coords by the `per` value
-		const jitter = (geo,per) => geo.vertices.forEach(v => {
-		    v.x += map(Math.random(),0,1,-per,per)
-		    v.y += map(Math.random(),0,1,-per,per)
-		    v.z += map(Math.random(),0,1,-per,per)
-		})
-
-		jitter(sphereGeo,1)
+		var obj = new THREE.Mesh( objGeo , objMat );
 
 
 
 
-		var sphere = new THREE.Mesh( sphereGeo , sphereMat );
-
-		this.mesh.add(sphere);
+		this.mesh.add(obj);
 
 	}
 
-	sphere = new Sphere();
-	scene.add(sphere.mesh);
+	obj = new Obj();
+	scene.add(obj.mesh);
 
-	// return sphere;
+	return obj;
 }
 
-function createLand(scene) {
-	var Sphere = function(){
+
+function createObj2(scene) {
+	var Obj2 = function(){
 		this.mesh = new THREE.Object3D();
 
-		var sphereGeo = new THREE.SphereGeometry(50, 40, 40);
-		var sphereMat = new THREE.MeshLambertMaterial({
-							color: '#F7F500',
+
+		// Geometry
+
+		// var objGeo = new THREE.BoxGeometry(50, 50, 50, 40);
+		var obj2Geo = new THREE.BoxGeometry(50, 50, 50, 40);
+
+
+		// Material
+
+		var obj2Mat = new THREE.MeshPhongMaterial({
+							color: '#1297FE',
 							transparent: false,
 							opacity: 0.5
 						});
 
-		sphereMat.onBeforeCompile = (shader) => {
-		    shader.uniforms.time = { value: 0}
-		    shader.vertexShader = `
-		         uniform float time;
-		         ` + shader.vertexShader
-		    const token = `#include <begin_vertex>`
-		    const customTransform = `
-		        vec3 transformed = vec3(position);
-		        transformed.x = position.x 
-		             + sin(position.y*1.0 + time*5.0)*1.0;
-		    `
-		   shader.vertexShader =
-		           shader.vertexShader.replace(token,customTransform)
-		   materialShader = shader;
-		 }
+		// Combine
 
-		//remap value from the range of [smin,smax] to [emin,emax]
-		const map = (val, smin, smax, emin, emax) => (emax-emin)*(val-smin)/(smax-smin) + emin
+		obj2Geo.vertices[0].y += 15;
 
-		//randomly displace the x,y,z coords by the `per` value
-		const jitter = (geo,per) => geo.vertices.forEach(v => {
-		    v.x += map(Math.random(),0,1,-per,per)
-		    v.y += map(Math.random(),0,1,-per,per)
-		    v.z += map(Math.random(),0,1,-per,per)
-		})
+		var obj2 = new THREE.Mesh( obj2Geo , obj2Mat );
 
-		jitter(sphereGeo,1)
-
-
-
-
-		var sphere = new THREE.Mesh( sphereGeo , sphereMat );
-
-		this.mesh.add(sphere);
+		this.mesh.add(obj2);
 
 	}
 
-	sphere = new Sphere();
-	scene.add(sphere.mesh);
+	obj2 = new Obj2();
+	scene.add(obj2.mesh);
 
-	// return sphere;
+	return obj2;
 }
-

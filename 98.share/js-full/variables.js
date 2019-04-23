@@ -12,7 +12,7 @@ var renderer;
 var controls;
 var materialShader;
 var mouse = new THREE.Vector2(), INTERSECTED;
-
+var sun;
 
 var Window = {
 	width: window.innerWidth,
@@ -33,4 +33,4 @@ var MousePos = {
 	- ...
 
 */
-var control_mode = 'orbit'
+var control_mode = 'map'

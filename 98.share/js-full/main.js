@@ -1,20 +1,29 @@
 $(function(){
 	createScene('#world', scene, Window);
 
-	var sphere = createSphere(scene);
+	// TODO ----
+
+	// var box = createObj(scene);
+	var box2 = createObj2(scene);
+
+
+
+	//--------
 
 	ready = true; 
 
-    function onMouseMove(event) {
-	    mouseX = event.clientX - window.innerWidth / 2;
-	    mouseY = event.clientY - window.innerHeight / 2;
-	    camera.position.x += (mouseX - camera.position.x) * 0.005;
-	    camera.position.y += (mouseY - camera.position.y) * 0.005;
-	    //set up camera position
-	    camera.lookAt(scene.position);
-	};
+	createAxes(scene);
 
-	createLights(scene);
+	// createLights(scene);
+	sun = createSun(
+		scene, 
+		{
+			x: 150,
+			y: 150,
+			z: 150,
+		},
+		'#ff0000'
+	);
 
 	clock = new THREE.Clock();
 	animate();
@@ -25,24 +34,15 @@ $(function(){
 function animate() {
 	requestAnimationFrame( animate );
 	if ( ready ) {
-		update();
 		render();
-	} else {
-		console.log('loading...');
+		if (sun) {
+			sun.rotation.x += 2*Math.PI/180;
+			sun.rotation.z += 2*Math.PI/180;	
+		}
 	}
 }
 
-function update(){
-	var delta = clock.getDelta();
-	time = Date.now() * 0.0005;
-	// mixer.update( delta / 2.0 );
-}
-
-function render(time){
-	// console.log(time);
-	if(materialShader) 
-   		materialShader.uniforms.time.value = time/1000;
-
+function render(){
 	renderer.render(scene, camera);
 	renderer.setAnimationLoop(render)
 }

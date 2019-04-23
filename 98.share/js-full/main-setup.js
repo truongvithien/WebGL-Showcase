@@ -107,3 +107,35 @@ function createLights(scene){
 	scene.add(ambientLight);
 	scene.add(shadowLight);
 }
+
+
+function createSun(scene, position, color = 0xffffff){
+	var Sun = function(){
+		this.mesh = new THREE.Object3D();
+
+		var bulbGeometry = new THREE.SphereBufferGeometry( 20, 20, 20 );
+		var bulbLight = new THREE.PointLight( color, 1, 0, 1 );
+		bulbLight.shadow.bias = 0;
+		bulbLight.shadow.mapSize.width = Window.width; // default is 512
+		bulbLight.shadow.mapSize.height = Window.height; // default is 512
+
+		var bulbMat = new THREE.MeshStandardMaterial( {
+			emissive: 0xffffee,
+			emissiveIntensity: 1,
+			color: 0x000000
+		} );
+
+		bulbLight.add( new THREE.Mesh( bulbGeometry, bulbMat ) );
+		// bulbLight.position.y += 200;
+		bulbLight.position.set( position.x, position.y, position.z );
+		bulbLight.castShadow = true;
+
+		this.mesh.add(bulbLight);
+	}
+
+	sun = new Sun();
+	scene.add(sun.mesh);
+
+	return sun.mesh;
+}
+
