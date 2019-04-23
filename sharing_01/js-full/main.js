@@ -14,18 +14,18 @@ var
 $(function(){
 	createScene('#world', scene, Window);
 
-	atmosphere = createAtmosphere(scene);
+	// atmosphere = createAtmosphere(scene);
 	sphere = createSphere(scene);
 	land = createLand(scene);
 	sea = createSea(scene);
 	grass = createGrass(scene);
-	tree0 = createTree0(scene);
+	// tree0 = createTree0(scene);
 
 	tree1 = createTree1(scene);
-	tree1.position.y = 999;
+	// tree1.position.y = 999;
 
-	tree2 = createTree2(scene);
-	tree2.position.y = 999;
+	// tree2 = createTree2(scene);
+	// tree2.position.y = 999;
 
 	// tree2 = createTree0(scene);
 	cloud = createCloud(scene);
@@ -94,7 +94,7 @@ function animate() {
 	if ( ready ) {
 		update();
 		render();
-		updateScript(wheel_direction, wheel_score);
+		// updateScript(wheel_direction, wheel_score);
 	} else {
 		console.log('loading...');
 	}

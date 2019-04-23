@@ -23,3 +23,41 @@ function triggerAnimate(obj){
 		})
 }
 
+function exportGLTF() {
+
+	var options = {
+		trs: false,
+		onlyVisible: true,
+		truncateDrawRange: true,
+		binary: false,
+		forceIndices: false,
+		forcePowerOfTwoTextures: false
+	};
+
+	var exporter = new THREE.GLTFExporter();
+	var link = $("#link");
+
+	exporter.parse( scene, function ( result ) {
+		console.log(result);
+
+		if ( result instanceof ArrayBuffer ) {
+			saveArrayBuffer( result, 'scene.glb' );
+		} else {
+			var output = JSON.stringify( result, null, 2 );
+			console.log( output );
+			saveString( output, 'scene.gltf' );
+		}
+	}, options );
+
+	function save( blob, filename ) {
+		link.href = URL.createObjectURL( blob );
+		link.download = filename;
+		link.click();
+		// URL.revokeObjectURL( url ); breaks Firefox...
+	}
+	function saveArrayBuffer( buffer, filename ) {
+		save( new Blob( [ buffer ], { type: 'application/octet-stream' } ), filename );
+	}	
+
+}
+
